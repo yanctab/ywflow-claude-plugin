@@ -2,9 +2,10 @@
 
 .PHONY: build lint test clean install setup release package docs help
 
-PLUGIN_NAME := $(shell jq -r '.name'    .claude-plugin/plugin.json)
-VERSION     := $(shell jq -r '.version' .claude-plugin/plugin.json)
-CACHE_DIR   := $(HOME)/.claude/plugins/cache/$(PLUGIN_NAME)/$(PLUGIN_NAME)/$(VERSION)
+PLUGIN_NAME     := $(shell jq -r '.name'    .claude-plugin/plugin.json)
+VERSION         := $(shell jq -r '.version' .claude-plugin/plugin.json)
+REPO_DIR        := $(shell realpath .)
+CACHE_DIR       := $(HOME)/.claude/plugins/cache/$(PLUGIN_NAME)/$(PLUGIN_NAME)/$(VERSION)
 
 ## help - show available targets
 help:
@@ -19,15 +20,12 @@ build:
 lint:
 	@echo "Validating .claude-plugin/plugin.json..."
 	@jq . .claude-plugin/plugin.json > /dev/null
-	@echo "Validating .claude-plugin/marketplace.json..."
-	@jq . .claude-plugin/marketplace.json > /dev/null
 	@echo "JSON validation passed."
 
 ## test - check required plugin files exist and run skill tests
 test:
 	@echo "Checking plugin structure..."
-	@test -f .claude-plugin/plugin.json      || (echo "ERROR: missing .claude-plugin/plugin.json"      && exit 1)
-	@test -f .claude-plugin/marketplace.json || (echo "ERROR: missing .claude-plugin/marketplace.json" && exit 1)
+	@test -f .claude-plugin/plugin.json || (echo "ERROR: missing .claude-plugin/plugin.json" && exit 1)
 	@test -d commands || (echo "ERROR: missing commands/ directory" && exit 1)
 	@test -d skills   || (echo "ERROR: missing skills/ directory"   && exit 1)
 	@test -d agents   || (echo "ERROR: missing agents/ directory"   && exit 1)
@@ -61,22 +59,22 @@ test:
 clean:
 	@echo "Nothing to clean for a Claude plugin."
 
-## install - copy working directory into the local Claude plugin cache
+## install - register marketplace and install plugin via Claude CLI
 install:
-	@set -e; \
-	mkdir -p "$(CACHE_DIR)"; \
-	SRC=$$(realpath .); \
-	DST=$$(realpath "$(CACHE_DIR)"); \
-	case "$$SRC/" in "$$DST"/*) \
-	  echo "ERROR: CWD ($$SRC) is inside CACHE_DIR ($$DST) — refusing to rsync into itself." >&2; \
-	  exit 1 ;; esac; \
-	case "$$DST/" in "$$SRC"/*) \
-	  echo "ERROR: CACHE_DIR ($$DST) is inside CWD ($$SRC) — refusing to rsync into itself." >&2; \
-	  exit 1 ;; esac; \
-	echo "Installing $(PLUGIN_NAME)@$(VERSION) to local Claude plugin cache..."; \
-	rsync -a --delete --exclude='.git/' --exclude='.claude/' "$$SRC/" "$$DST/"; \
-	echo "Installed to: $$DST"; \
-	echo "Reload Claude Code to pick up changes."
+	@MARKETPLACE_DIR=$$(realpath ../yanctab-marketplace); \
+	if [ ! -d "$$MARKETPLACE_DIR/.claude-plugin" ]; then \
+	  echo "ERROR: yanctab-marketplace not found at ../yanctab-marketplace"; \
+	  echo "Ensure yanctab-marketplace repo is cloned next to this repo."; \
+	  exit 1; \
+	fi; \
+	echo "Adding marketplace from $$MARKETPLACE_DIR..."; \
+	claude plugin marketplace add $$MARKETPLACE_DIR; \
+	echo ""; \
+	echo "Installing $(PLUGIN_NAME)@yanctab-marketplace..."; \
+	claude plugin install $(PLUGIN_NAME)@yanctab-marketplace; \
+	echo ""; \
+	echo "✓ Plugin installed successfully!"; \
+	echo "Try running a skill: /ywflow:execute"
 
 ## setup - install tools required to work on this plugin
 setup:
