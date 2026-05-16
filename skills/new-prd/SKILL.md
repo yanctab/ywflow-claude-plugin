@@ -31,14 +31,8 @@ Use the Read tool to load the entire file content from the provided path.
 
 ### Step 2.2 — Validate required sections
 
-Check that the file contains all seven required section headings (case-sensitive, must be exact):
-- `## Problem Statement`
-- `## Solution`
-- `## User Stories`
-- `## Implementation Decisions`
-- `## Testing Decisions`
-- `## Out of Scope`
-- `## Further Notes`
+Check that the file contains all seven required section headings (case-sensitive, must be exact).
+See `.claude/prd-template.md` for the required structure.
 
 If any section is missing:
 - List the missing sections to the user
