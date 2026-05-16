@@ -32,6 +32,10 @@ check_criterion "scans codebase before each question and self-answers when evide
 check_criterion "each question is accompanied by a recommended answer" \
     "grep -qi 'recommended answer\|recommend.*answer\|suggested answer' '$SKILL_FILE'"
 
+# Criterion 4: dependency-ordered decision tree — foundational first, dependent decisions after
+check_criterion "follows dependency-ordered decision tree with foundational decisions first" \
+    "grep -qi 'dependency-ordered\|decision tree\|depend' '$SKILL_FILE' && grep -qi 'problem\|user\|scope' '$SKILL_FILE' && grep -qi 'architect\|testing\|rollout' '$SKILL_FILE'"
+
 echo ""
 if [ $ERRORS -eq 0 ]; then
     echo "All tests passed."

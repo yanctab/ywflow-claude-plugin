@@ -15,3 +15,31 @@ answer it yourself and move on without asking the user.
 
 Each question must be accompanied by a recommended answer. State your
 recommended answer clearly so the user can accept it or correct it.
+
+## Dependency-Ordered Decision Tree
+
+Follow this dependency-ordered decision tree — foundational decisions
+(problem, user, scope) always come first, because architecture, testing,
+and rollout decisions depend on them.
+
+### Phase 1 — Foundational (problem, user, scope)
+
+Ask about the core problem, who the user is, and what is in scope
+before any other questions. These answers are prerequisites for all
+later phases.
+
+### Phase 2 — Architecture
+
+Ask how the feature will be implemented and what dependencies or
+integrations are involved. These decisions depend on scope and user
+from Phase 1.
+
+### Phase 3 — Testing
+
+Ask how the feature will be tested and what critical scenarios must
+be covered. These decisions depend on the architecture from Phase 2.
+
+### Phase 4 — Rollout
+
+Ask how the feature will be rolled out and documented. These decisions
+depend on all earlier phases.
