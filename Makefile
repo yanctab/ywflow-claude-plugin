@@ -47,6 +47,12 @@ test:
 	@echo ""
 	@echo "Running README tests..."
 	@bash tests/test-readme.sh
+	@echo ""
+	@echo "Running settings tests..."
+	@bash tests/test-settings.sh
+	@echo ""
+	@echo "Running .claude/CLAUDE.md tests..."
+	@bash tests/test-claude-md.sh
 
 ## clean - nothing to clean for a plugin
 clean:
