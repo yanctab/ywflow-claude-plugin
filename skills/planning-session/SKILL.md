@@ -43,3 +43,10 @@ be covered. These decisions depend on the architecture from Phase 2.
 
 Ask how the feature will be rolled out and documented. These decisions
 depend on all earlier phases.
+
+## Exit Criteria
+
+The exit criteria are: all decision-tree branches resolved with no open
+questions remaining. When every phase (foundational, architecture, testing,
+rollout) is complete and the user has confirmed their answers, declare
+that you are entering wrap-up before assembling the PRD.

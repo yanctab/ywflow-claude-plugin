@@ -36,6 +36,10 @@ check_criterion "each question is accompanied by a recommended answer" \
 check_criterion "follows dependency-ordered decision tree with foundational decisions first" \
     "grep -qi 'dependency-ordered\|decision tree\|depend' '$SKILL_FILE' && grep -qi 'problem\|user\|scope' '$SKILL_FILE' && grep -qi 'architect\|testing\|rollout' '$SKILL_FILE'"
 
+# Criterion 5: explicit exit criteria are defined and visible; skill declares entering wrap-up
+check_criterion "defines explicit exit criteria and declares wrap-up" \
+    "grep -qi 'exit criteria' '$SKILL_FILE' && grep -qi 'wrap.up\|wrap up' '$SKILL_FILE'"
+
 echo ""
 if [ $ERRORS -eq 0 ]; then
     echo "All tests passed."
