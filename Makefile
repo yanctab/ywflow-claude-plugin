@@ -70,11 +70,14 @@ install:
 	echo "Adding marketplace from $$MARKETPLACE_DIR..."; \
 	claude plugin marketplace add $$MARKETPLACE_DIR; \
 	echo ""; \
-	echo "Installing $(PLUGIN_NAME)@yanctab-marketplace..."; \
-	claude plugin install $(PLUGIN_NAME)@yanctab-marketplace; \
+	echo "Installing ywflow-dev@yanctab-marketplace..."; \
+	claude plugin install ywflow-dev@yanctab-marketplace; \
 	echo ""; \
-	echo "✓ Plugin installed successfully!"; \
-	echo "Try running a skill: /ywflow:execute"
+	echo "✓ Dev plugin installed successfully!"; \
+	echo "Try running a skill: /ywflow:execute"; \
+	echo ""; \
+	echo "To install the official release instead, run:"; \
+	echo "  claude plugin install ywflow@yanctab-marketplace"
 
 ## setup - install tools required to work on this plugin
 setup:
