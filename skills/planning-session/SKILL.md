@@ -55,7 +55,8 @@ that you are entering wrap-up before assembling the PRD.
 
 Do NOT call the `prd-researcher` agent. Assemble the PRD yourself using
 the seven sections below, populated from the decisions collected during
-the session.
+the session. Use the Write tool to save the complete PRD to `./prd.md`
+in the working directory.
 
 Use this exact section structure:
 

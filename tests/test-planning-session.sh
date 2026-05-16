@@ -44,6 +44,10 @@ check_criterion "defines explicit exit criteria and declares wrap-up" \
 check_criterion "assembles seven-section PRD with embedded sections and does not call prd-researcher" \
     "grep -qi 'Problem Statement' '$SKILL_FILE' && grep -qi 'Solution' '$SKILL_FILE' && grep -qi 'User Stories' '$SKILL_FILE' && grep -qi 'Implementation Decisions' '$SKILL_FILE' && grep -qi 'Testing Decisions' '$SKILL_FILE' && grep -qi 'Out of Scope' '$SKILL_FILE' && grep -qi 'Further Notes' '$SKILL_FILE' && grep -qi 'NOT.*prd-researcher\|Do NOT call.*prd-researcher' '$SKILL_FILE'"
 
+# Criterion 7: PRD draft is written to ./prd.md in the working directory
+check_criterion "writes the PRD draft to ./prd.md" \
+    "grep -q '\./prd\.md\|prd\.md' '$SKILL_FILE'"
+
 echo ""
 if [ $ERRORS -eq 0 ]; then
     echo "All tests passed."
