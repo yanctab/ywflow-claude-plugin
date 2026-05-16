@@ -13,16 +13,63 @@ interview the developer. No code changes.
 
 ## Process
 
-1. Invoke the `prd-researcher` agent with the feature title. If no
-   title was supplied as an argument, pass the current conversation
-   context and let the agent infer one. The agent returns a module
-   sketch.
+### File-mode (with `.md` file argument)
 
-2. Relay the sketch to the developer and ask, in one turn:
+When invoked with a path to a `.md` file (e.g., `/new-prd ./prd.md`):
+
+1. **Read the file:** Use the Read tool to load the entire file content.
+
+2. **Validate required sections:** Check that the file contains all seven required section headings (case-sensitive, must be exact):
+   - `## Problem Statement`
+   - `## Solution`
+   - `## User Stories`
+   - `## Implementation Decisions`
+   - `## Testing Decisions`
+   - `## Out of Scope`
+   - `## Further Notes`
+   
+   If any section is missing:
+   - List the missing sections to the user
+   - Halt without filing the issue
+   
+   If all sections are present, proceed to step 3.
+
+3. **Extract the H1 title:** Search the file for the first line matching the pattern `# <title>` (a single hash followed by a space and text).
+   - If found, extract the title text (the part after `# `)
+   - If not found, report "Error: no H1 heading found in file" and halt without filing
+   
+4. **File the issue:** Execute the command:
+   ```
+   gh issue create --title "PRD: <extracted-title>" --body-file <absolute-path-to-file> --assignee @me
+   ```
+   Use the absolute path to the file. Capture the command output.
+
+5. **Report result:** Print the returned issue URL from the command output. The output from `gh issue create` will contain a line like `https://github.com/...`. Extract and print only this URL.
+
+### Synthesis-mode (no argument)
+
+When invoked with no argument or when file-mode validation fails:
+
+1. **Infer the feature title:** If no explicit title was provided as an
+   argument, use the current conversation context to infer a clear,
+   concise feature title.
+
+2. **Invoke prd-researcher (first pass):** Call the `prd-researcher`
+   agent with the feature title, passing the current conversation
+   context. The agent returns a module sketch.
+
+3. **Ask confirmation questions:** Relay the sketch to the developer
+   and ask, in one turn:
    - Do these modules match your expectations?
    - Which modules do you want tests written for?
 
-3. Invoke `prd-researcher` again with the title, the sketch, and the
-   developer's answers. It writes the PRD and files the GitHub issue.
+4. **Invoke prd-researcher (second pass):** Call the `prd-researcher`
+   agent again with:
+   - The feature title
+   - The module sketch
+   - The developer's answers to the two questions
+   
+   The agent writes the full PRD and files the GitHub issue, returning
+   the issue URL.
 
-4. Print the returned issue URL.
+5. **Report result:** Print the returned issue URL.
