@@ -36,6 +36,9 @@ test:
 	@echo "Running skill tests..."
 	@bash tests/test-planning-session.sh
 	@echo ""
+	@echo "Running finalize-agent tests..."
+	@bash tests/test-finalize-agents.sh
+	@echo ""
 	@echo "Running manifest tests..."
 	@bash tests/test-manifests.sh
 

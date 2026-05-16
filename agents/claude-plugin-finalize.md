@@ -95,7 +95,7 @@ adds the post-edit lint hook:
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/plugins/cache/yanct-claude-plugin/yanct-claude-plugin/0.1.0/hooks/post-edit-lint.sh"
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/post-edit-lint.sh"
           }
         ]
       }
@@ -104,8 +104,8 @@ adds the post-edit lint hook:
 }
 ```
 
-Substitute the actual value of `$CLAUDE_PLUGIN_ROOT` in the hook command path
-before writing — the literal `$CLAUDE_PLUGIN_ROOT` must not appear in the output file.
+Expand `$CLAUDE_PLUGIN_ROOT` at write time by substituting its runtime value into
+the `"command"` field — the literal `$CLAUDE_PLUGIN_ROOT` must not appear in the output file.
 
 ## Step 4 — Update .claude/CLAUDE.md to declare skill-creator dependency
 
