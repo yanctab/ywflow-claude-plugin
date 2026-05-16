@@ -92,3 +92,10 @@ Use this exact section structure:
 
 <Any additional context, links, or notes>
 ```
+
+## Handoff to new-prd
+
+After writing `./prd.md`, invoke the `new-prd` skill in file-mode by
+passing `./prd.md` as argument. The `new-prd` skill will validate the
+PRD structure and file it as a GitHub issue. Do not invoke the
+two-pass `prd-researcher` synthesis flow — use file-mode only.

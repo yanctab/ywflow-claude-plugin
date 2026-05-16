@@ -48,6 +48,10 @@ check_criterion "assembles seven-section PRD with embedded sections and does not
 check_criterion "writes the PRD draft to ./prd.md" \
     "grep -q '\./prd\.md\|prd\.md' '$SKILL_FILE'"
 
+# Criterion 8: after writing ./prd.md, hands off to new-prd skill in file-mode with ./prd.md as argument
+check_criterion "hands off to new-prd in file-mode passing ./prd.md as argument" \
+    "grep -qi 'new-prd' '$SKILL_FILE' && grep -qi 'file.mode\|file mode' '$SKILL_FILE' && grep -qi 'prd\.md.*argument\|argument.*prd\.md\|pass.*prd\.md\|prd\.md.*as argument' '$SKILL_FILE'"
+
 echo ""
 if [ $ERRORS -eq 0 ]; then
     echo "All tests passed."
